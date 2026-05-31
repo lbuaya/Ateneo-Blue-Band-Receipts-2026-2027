@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ateneo Blue Band Receipt System — Dashboard</title>
+  <meta name="description" content="Dashboard and onboarding system for the Ateneo Blue Band Finance Office." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-dark:  #0f2044;
+      --blue-mid:   #1a3566;
+      --blue-main:  #23395d;
+      --blue-light: #16379b;
+      --accent:     #4a90d9;
+      --gold:       #c9a84c;
+      --gold-light: #e8c96d;
+      --white:      #ffffff;
+      --off-white:  #f3f5f9;
+      --text-body:  #334155;
+      --text-muted: #64748b;
+      --border:     #dde5f0;
+      --radius:     16px;
+      --radius-sm:  10px;
+      --shadow-sm:  0 4px 12px rgba(15,32,68,.06);
+      --shadow-md:  0 10px 30px rgba(15,32,68,.10);
+      --shadow-lg:  0 20px 50px rgba(15,32,68,.15);
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      background: var(--off-white);
+      color: var(--text-body);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* ── CONTAINER ──────────────────────────────────── */
+    .container {
+      background: var(--white);
+      max-width: 900px;
+      width: 100%;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ─────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 100%);
+      color: var(--white);
+      padding: 48px 40px;
+      text-align: center;
+      position: relative;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(74,144,217,.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+    header p {
+      font-size: 15px;
+      color: rgba(255,255,255,.75);
+    }
+
+    /* ── ALERTS / NOTICES ───────────────────────────── */
+    .setup-warning {
+      background: #fffbeb;
+      border-left: 4px solid var(--gold);
+      padding: 16px 24px;
+      margin: 28px 40px 0;
+      border-radius: var(--radius-sm);
+      color: #92400e;
+      font-size: 13.5px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .setup-warning strong {
+      color: #78350f;
+    }
+
+    /* ── GRID OF STEPS ──────────────────────────────── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      padding: 28px 40px 40px;
+    }
+
+    /* ── STEP CARD ──────────────────────────────────── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    /* Step numbers */
+    .card-step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--off-white);
+      color: var(--blue-main);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    
+    /* Highlight first step (setup) */
+    .card.highlight {
+      background: linear-gradient(180deg, var(--white) 0%, rgba(201,168,76,0.03) 100%);
+      border: 2px solid var(--gold);
+    }
+    .card.highlight .card-step-badge {
+      background: var(--gold);
+      color: var(--blue-dark);
+      border-color: var(--gold);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--blue-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      flex: 1;
+      line-height: 1.5;
+    }
+
+    /* Buttons */
+    .button {
+      display: block;
+      text-align: center;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s;
+    }
+    
+    .button-primary {
+      background-color: var(--blue-light);
+      color: var(--white);
+    }
+    .button-primary:hover {
+      background-color: #1d4ed8;
+      box-shadow: 0 4px 12px rgba(22,55,155,.2);
+    }
+
+    .button-gold {
+      background-color: var(--gold);
+      color: var(--blue-dark);
+    }
+    .button-gold:hover {
+      background-color: #b5923b;
+      box-shadow: 0 4px 12px rgba(201,168,76,.3);
+    }
+
+    .button-outline {
+      border: 1px solid var(--border);
+      color: var(--text-body);
+      background: transparent;
+    }
+    .button-outline:hover {
+      background: var(--off-white);
+      color: var(--blue-dark);
+    }
+
+    /* Helper guide link inside cards */
+    .card-guide-link {
+      display: inline-block;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--blue-light);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dashed var(--blue-light);
+      align-self: center;
+      transition: color 0.2s;
+    }
+    .card-guide-link:hover {
+      color: #1d4ed8;
+      border-bottom-style: solid;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      background: #fafafc;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+      }
+      .setup-warning {
+        margin: 20px 20px 0;
+      }
+      header {
+        padding: 36px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- HERO HEADER -->
+    <header>
+      <h1>Ateneo Blue Band</h1>
+      <p>Official Receipt Generator & Database Management Hub</p>
+    </header>
+
+    <!-- STEP 1 WARNING -->
+    <div class="setup-warning" id="setup-warning-block">
+      <span>⚠️</span>
+      <div>
+        <strong>Google Sheets Setup Required First:</strong> Before generating or encoding any transactions, you must connect a Google Sheet template backend to store receipt records. If you are setting this up for the first time or on a new device, complete **Step 1** first.
+      </div>
+    </div>
+
+    <!-- ONBOARDING HUB -->
+    <div class="steps-grid">
+
+      <!-- STEP 1 CARD (Sheets Setup) -->
+      <div class="card highlight" id="card-setup">
+        <span class="card-step-badge">1</span>
+        <h2>⚙️ Connect Spreadsheet</h2>
+        <p>Set up the Google Sheets template and deploy the Apps Script. This connects the generator to your database so transactions are recorded automatically.</p>
+        <a href="Google_Sheet_Instructions.html" class="button button-gold">Database Setup Guide</a>
+      </div>
+
+      <!-- STEP 2 CARD (Generate/Encode) -->
+      <div class="card" id="card-generator">
+        <span class="card-step-badge">2</span>
+        <h2>🎫 Encode Transactions</h2>
+        <p>Input customer details, invoice numbers, and merchandise/tickets, and print or save official Ateneo Blue Band receipts.</p>
+        <a href="Ateneo_Blue_Band_Receipt_Generator.html" class="button button-primary">Open Receipt Encoder</a>
+        <a href="Receipt_Encoding_Instructions.html" class="card-guide-link">Read Encoding Guide</a>
+      </div>
+
+      <!-- STEP 3 CARD (Verify) -->
+      <div class="card" id="card-verify">
+        <span class="card-step-badge">3</span>
+        <h2>🔍 Verify Invoices (Optional)</h2>
+        <p>Optionally verify printed receipt invoice numbers against your exported database files to detect valid payments and audit sales.</p>
+        <a href="verify.html" class="button button-outline">Audit & Verify System</a>
+      </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      Finance Office © 2025 • Hosted on GitHub Pages
+    </footer>
+  </div>
+
+</body>
+</html>
